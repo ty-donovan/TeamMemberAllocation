@@ -4,12 +4,12 @@ import Header from './Header';
 import Content from './Content';
 import Footer from './Footer';
 import Employees from './Employees';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
-  const [selectedTeam, setSelectedTeam] = useState("TeamB");
+  const [selectedTeam, setSelectedTeam] = useState(JSON.parse(localStorage.getItem("selectedTeam")) || "TeamB");
 
-  const [employees, setEmployees] = useState([{
+  const [employees, setEmployees] = useState(JSON.parse(localStorage.getItem("employees")) || [{
       id: 1,
       fullName: "Bob Jones",
       designation: "JavaScript Developer",
@@ -94,6 +94,14 @@ function App() {
       teamName: "TeamD"
     }]);
 
+  useEffect(() => {
+    localStorage.setItem("employeesList", JSON.stringify(employees));
+  }, [employees]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedTeam", JSON.stringify(selectedTeam));
+  }, [selectedTeam]);
+
   const handleTeamSelectionChange = (event) => {
       setSelectedTeam(event.target.value);
   }
@@ -118,12 +126,11 @@ function App() {
     <div style={{ textAlign: 'center' }}>
       <Header selectedTeam={selectedTeam}
               teamMemberCount={employees.filter((employee) => employee.teamName === selectedTeam).length}/>
-      <Content />
-      <Footer />
       <Employees employees={employees}
                 selectedTeam={selectedTeam}
                 handleEmployeeCardClick={handleEmployeeCardClick}
                 handleTeamSelectionChange={handleTeamSelectionChange}/>
+      <Footer />
     </div>
   );
 }
