@@ -116,13 +116,14 @@ function App() {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <Header />
+      <Header selectedTeam={selectedTeam}
+              teamMemberCount={employees.filter((employee) => employee.teamName === selectedTeam).length}/>
       <Content />
       <Footer />
       <Employees employees={employees}
-        selectedTeam={selectedTeam}
-        handleEmployeeCardClick={handleEmployeeCardClick}
-        handleTeamSelectionChange={handleTeamSelectionChange}/>
+                selectedTeam={selectedTeam}
+                handleEmployeeCardClick={handleEmployeeCardClick}
+                handleTeamSelectionChange={handleTeamSelectionChange}/>
     </div>
   );
 }
